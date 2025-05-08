@@ -6,6 +6,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 // ROUTE IMPORTS
 
+import projectRoutes from "./routes/projectRoutes";
+
 // CONFIGURATIONS
 dotenv.config();
 const app = express();
@@ -21,6 +23,8 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("This is the home page of the API.");
 });
+
+app.use("/api/projects", projectRoutes);
 
 // SERVER
 const port = process.env.PORT || 5000;

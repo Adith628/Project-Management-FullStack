@@ -1,6 +1,7 @@
 "use client";
 import React, { use, useState } from "react";
 import ProjectHeader from "../ProjectHeader";
+import BoardView from "../BoardView";
 
 type Props = {
   params: {
@@ -9,7 +10,8 @@ type Props = {
 };
 
 const Project = ({ params }: Props) => {
-  const { id } = params;
+  const { id } = use(params);
+  console.log("Project ID:", typeof id);
   const [activeTab, setActiveTab] = useState("Board");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
 
@@ -17,6 +19,9 @@ const Project = ({ params }: Props) => {
     <div>
       {/* Modal New Task */}
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
+      {activeTab === "Board" && (
+        <BoardView id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+      )}
     </div>
   );
 };

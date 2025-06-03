@@ -4,9 +4,9 @@ import ProjectHeader from "../ProjectHeader";
 import BoardView from "../BoardView";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 const Project = ({ params }: Props) => {

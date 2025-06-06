@@ -54,6 +54,7 @@ const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(201).json(newTask);
     }
     catch (error) {
+        console.error("Error creating task:", error);
         res.status(500).json({ error: `Error creating task: ${error.message}` });
     }
 });

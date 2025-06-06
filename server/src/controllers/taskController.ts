@@ -58,6 +58,7 @@ export const createTask = async (
     });
     res.status(201).json(newTask);
   } catch (error: any) {
+    console.error("Error creating task:", error);
     res.status(500).json({ error: `Error creating task: ${error.message}` });
   }
 };

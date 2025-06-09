@@ -33,8 +33,8 @@ CREATE TABLE "Project" (
 -- CreateTable
 CREATE TABLE "ProjectTeam" (
     "id" SERIAL NOT NULL,
-    "projectId" INTEGER NOT NULL,
     "teamId" INTEGER NOT NULL,
+    "projectId" INTEGER NOT NULL,
 
     CONSTRAINT "ProjectTeam_pkey" PRIMARY KEY ("id")
 );
@@ -60,8 +60,8 @@ CREATE TABLE "Task" (
 -- CreateTable
 CREATE TABLE "TaskAssignment" (
     "id" SERIAL NOT NULL,
-    "taskId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
+    "taskId" INTEGER NOT NULL,
 
     CONSTRAINT "TaskAssignment_pkey" PRIMARY KEY ("id")
 );
@@ -70,7 +70,7 @@ CREATE TABLE "TaskAssignment" (
 CREATE TABLE "Attachment" (
     "id" SERIAL NOT NULL,
     "fileURL" TEXT NOT NULL,
-    "fileName" TEXT NOT NULL,
+    "fileName" TEXT,
     "taskId" INTEGER NOT NULL,
     "uploadedById" INTEGER NOT NULL,
 
@@ -93,20 +93,14 @@ CREATE UNIQUE INDEX "User_cognitoId_key" ON "User"("cognitoId");
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
--- CreateIndex
-CREATE UNIQUE INDEX "Team_teamName_key" ON "Team"("teamName");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Project_name_key" ON "Project"("name");
-
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ProjectTeam" ADD CONSTRAINT "ProjectTeam_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ProjectTeam" ADD CONSTRAINT "ProjectTeam_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ProjectTeam" ADD CONSTRAINT "ProjectTeam_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ProjectTeam" ADD CONSTRAINT "ProjectTeam_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Task" ADD CONSTRAINT "Task_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -118,10 +112,10 @@ ALTER TABLE "Task" ADD CONSTRAINT "Task_authorUserId_fkey" FOREIGN KEY ("authorU
 ALTER TABLE "Task" ADD CONSTRAINT "Task_assignedUserId_fkey" FOREIGN KEY ("assignedUserId") REFERENCES "User"("userId") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "TaskAssignment" ADD CONSTRAINT "TaskAssignment_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "TaskAssignment" ADD CONSTRAINT "TaskAssignment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "TaskAssignment" ADD CONSTRAINT "TaskAssignment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "TaskAssignment" ADD CONSTRAINT "TaskAssignment_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Attachment" ADD CONSTRAINT "Attachment_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

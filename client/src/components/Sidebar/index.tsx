@@ -82,12 +82,7 @@ const Sidebar = () => {
         </div>
         {/* NAVBAR LINKS */}
         <nav className="z-10 w-full">
-          <SidebarLink
-            href="/dashboard"
-            icon={Home}
-            label="Dashboard"
-            isCollapsed={false}
-          />
+          <SidebarLink href="/" icon={Home} label="Home" isCollapsed={false} />
           <SidebarLink
             href="/timeline"
             icon={Briefcase}

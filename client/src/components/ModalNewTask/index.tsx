@@ -6,10 +6,10 @@ import { formatISO } from "date-fns";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  projectId: string; // Assuming you want to pass projectId for task creation
+  projectId?: string | null; // Assuming you want to pass projectId for task creation
 };
 
-const ModalNewTask = ({ isOpen, onClose, projectId }: Props) => {
+const ModalNewTask = ({ isOpen, onClose, projectId = null }: Props) => {
   const [createTask, { isLoading }] = useCreateTaskMutation();
 
   const [title, setTitle] = useState("");
@@ -21,9 +21,10 @@ const ModalNewTask = ({ isOpen, onClose, projectId }: Props) => {
   const [dueDate, setDueDate] = useState("");
   const [authorUserId, setAuthorUserId] = useState("");
   const [assignedUserId, setAssignedUserId] = useState("");
+  const [projectID, setProjectID] = useState("  ");
 
   const handleSubmit = async () => {
-    if (!title || !authorUserId) return;
+    if (!title || !authorUserId || !(projectId !== null || projectID)) return;
     try {
       const formattedStartDate = formatISO(new Date(startDate), {
         representation: "complete",
@@ -40,7 +41,7 @@ const ModalNewTask = ({ isOpen, onClose, projectId }: Props) => {
         status,
         priority,
         tags,
-        projectId: Number(projectId), // Assuming projectId is passed as a prop
+        projectId: projectId !== null ? Number(projectId) : Number(projectID), // Assuming projectId is passed as a prop
         authorUserId: Number(authorUserId) || undefined,
         assignedUserId: Number(assignedUserId) || undefined,
       });
@@ -62,7 +63,7 @@ const ModalNewTask = ({ isOpen, onClose, projectId }: Props) => {
   };
 
   const isFormValid = () => {
-    return title && authorUserId;
+    return title && authorUserId && !(projectId !== null || projectID);
   };
 
   const inputStyles =
@@ -192,6 +193,18 @@ const ModalNewTask = ({ isOpen, onClose, projectId }: Props) => {
             />
           </div>
         </div>
+        {projectId === null && (
+          <div>
+            <label className={labelStyles}>Project ID</label>
+            <input
+              type="number"
+              className={inputStyles}
+              placeholder="Enter project ID"
+              value={projectID}
+              onChange={(e) => setProjectID(e.target.value)}
+            />
+          </div>
+        )}
 
         <button
           type="submit"

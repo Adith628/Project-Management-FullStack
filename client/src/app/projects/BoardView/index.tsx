@@ -180,7 +180,7 @@ const Task = ({ task }: TaskProps) => {
     >
       {task.attachments && task.attachments.length > 0 && (
         <Image
-          src={`/${task.attachments[0].fileURL}`}
+          src={`https://pm-s3-assets-images.s3.us-east-1.amazonaws.com/${task.attachments[0].fileURL}`}
           alt={`${task.attachments[0].fileName}`}
           className="h-auto w-full rounded-t-md"
           width={400}
@@ -231,7 +231,7 @@ const Task = ({ task }: TaskProps) => {
               <Image
                 key={task.assignee.userId}
                 src={
-                  `/${task.assignee.profilePictureUrl}` ||
+                  `https://pm-s3-assets-images.s3.us-east-1.amazonaws.com/${task.assignee.profilePictureUrl}` ||
                   "/default-profile.png"
                 }
                 alt={task.assignee.username}
@@ -245,7 +245,8 @@ const Task = ({ task }: TaskProps) => {
               <Image
                 key={task.author.userId}
                 src={
-                  `/${task.author.profilePictureUrl}` || "/default-profile.png"
+                  `https://pm-s3-assets-images.s3.us-east-1.amazonaws.com/${task.author.profilePictureUrl}` ||
+                  "/default-profile.png"
                 }
                 alt={task.author.username}
                 className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"

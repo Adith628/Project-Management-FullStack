@@ -63,7 +63,12 @@ const ModalNewTask = ({ isOpen, onClose, projectId = null }: Props) => {
   };
 
   const isFormValid = () => {
-    return title && authorUserId && !(projectId !== null || projectID);
+    console.log("Validating form...");
+    console.log("Title:", title);
+    console.log("Author User ID:", authorUserId);
+    console.log("Project ID:", projectId, "or ProjectID:", projectID);
+
+    return title && authorUserId;
   };
 
   const inputStyles =

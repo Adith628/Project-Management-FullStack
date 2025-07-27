@@ -8,8 +8,24 @@ export const getProjects = async (
   res: Response
 ): Promise<void> => {
   try {
-    const projects = await prisma.project.findMany();
-    res.status(200).json(projects);
+    const projects = await prisma.project.findMany({
+      include: {
+        tasks: true,
+      },
+    });
+
+    const projectsWithStatus = projects.map((project) => {
+      const allTasksCompleted =
+        project.tasks.length > 0 &&
+        project.tasks.every((task) => task.status === "Completed");
+
+      return {
+        ...project,
+        status: allTasksCompleted ? "complete" : "incomplete",
+      };
+    });
+
+    res.status(200).json(projectsWithStatus);
   } catch (error: any) {
     res.status(500).json({ error: `Error fetching project: ${error.message}` });
   }

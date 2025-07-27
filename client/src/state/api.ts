@@ -6,6 +6,7 @@ export interface Project {
   description?: string;
   startDate?: string;
   endDate?: string;
+  status?: string;
 }
 
 export interface User {

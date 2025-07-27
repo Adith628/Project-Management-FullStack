@@ -73,11 +73,8 @@ const HomePage = () => {
 
   const statusCount = projects.reduce<Record<"Completed" | "Active", number>>(
     (acc, project) => {
-      const now = new Date();
-      const endDate = project.endDate ? new Date(project.endDate) : null;
-
       const status: "Completed" | "Active" =
-        endDate && endDate <= now ? "Completed" : "Active";
+        project.status === "complete" ? "Completed" : "Active";
 
       acc[status] += 1;
       return acc;

@@ -71,16 +71,23 @@ const HomePage = () => {
     count: priorityCount[key],
   }));
 
-  const statusCount = projects.reduce(
-    (acc: Record<string, number>, project: Project) => {
-      const status = project.endDate ? "Completed" : "Active";
-      acc[status] = (acc[status] || 0) + 1;
+  const statusCount = projects.reduce<Record<"Completed" | "Active", number>>(
+    (acc, project) => {
+      const now = new Date();
+      const endDate = project.endDate ? new Date(project.endDate) : null;
+
+      const status: "Completed" | "Active" =
+        endDate && endDate <= now ? "Completed" : "Active";
+
+      acc[status] += 1;
       return acc;
     },
-    {},
+    { Completed: 0, Active: 0 },
   );
 
-  const projectStatus = Object.keys(statusCount).map((key) => ({
+  const projectStatus = (
+    Object.keys(statusCount) as Array<"Completed" | "Active">
+  ).map((key) => ({
     name: key,
     count: statusCount[key],
   }));
